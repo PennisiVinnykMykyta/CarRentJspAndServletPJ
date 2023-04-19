@@ -7,7 +7,7 @@ import org.hibernate.Transaction;
 
 import java.beans.Expression;
 
-public class CarDAO {
+public class CarDAO { //need to add the update method
 
     public void saveCar(Car car){ //save a specific car
         Transaction transaction = null;

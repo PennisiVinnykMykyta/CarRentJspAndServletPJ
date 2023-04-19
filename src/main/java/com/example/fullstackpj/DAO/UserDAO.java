@@ -7,7 +7,7 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 public class UserDAO {
 
-    public void saveUser(User user){
+    public void saveUser(User user){ // need to add the update method
         Transaction transaction = null;
         try (Session session = HibernateUtil.getSessionFactory().openSession()){
             transaction = session.beginTransaction();
