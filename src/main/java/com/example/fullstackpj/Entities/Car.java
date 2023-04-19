@@ -1,9 +1,10 @@
 package com.example.fullstackpj.Entities;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
-public class Car {
+public class Car implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "car_id")
@@ -16,6 +17,14 @@ public class Car {
     public void setCarId(int carId) {
         this.carId = carId;
     }
+
+    public Car(){}
+
+    public Car(int id){
+        this.carId=id;
+    }
+
+
 
     @Override
     public boolean equals(Object o) {
