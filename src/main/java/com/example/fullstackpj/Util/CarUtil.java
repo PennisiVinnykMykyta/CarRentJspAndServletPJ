@@ -6,7 +6,6 @@ import com.example.fullstackpj.DAO.CarDAO;
 public class CarUtil {
 
     private CarDAO carDao = new CarDAO();
-    private Car car = new Car();
 
     public void saveCar(Car car){
         carDao.saveCar(car);

@@ -1,14 +1,21 @@
 package com.example.fullstackpj;
 
-import com.example.fullstackpj.Util.CarUtil;
-import com.example.fullstackpj.Entities.Car;
+import com.example.fullstackpj.Util.*;
+import com.example.fullstackpj.Entities.*;
 public class TestClass {
     public static void main(String[] args){
-        CarUtil car = new CarUtil();
+        UserUtil user = new UserUtil();
 
-        car.printCar(2);
-        car.removeCar(4);
-        car.printCarList();
+        user.saveUser(new User (2));
+        user.saveUser(new User (3));
+        user.saveUser(new User (4));
+        user.saveUser(new User (5));
+        user.saveUser(new User (6));
+        user.printUser(4);
+        user.removeUser(5);
+        user.removeUser(1);
+        user.printUserList();
+
 
 
 
