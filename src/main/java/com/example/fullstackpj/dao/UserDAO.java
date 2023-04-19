@@ -1,8 +1,8 @@
-package com.example.fullstackpj.DAO;
+package com.example.fullstackpj.dao;
 import java.util.List;
 
-import com.example.fullstackpj.Util.HibernateUtil;
-import com.example.fullstackpj.Entities.User;
+import com.example.fullstackpj.util.HibernateUtil;
+import com.example.fullstackpj.entities.User;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 public class UserDAO {
@@ -25,7 +25,7 @@ public class UserDAO {
         Transaction transaction = null;
         try (Session session = HibernateUtil.getSessionFactory().openSession()){
             transaction = session.beginTransaction();
-            User user = new User();
+            User user;
             user = session.find(User.class,id);
             session.delete(user);
             session.flush();
@@ -46,7 +46,7 @@ public class UserDAO {
 
     public User getUser(int id){ // get a specific user
         try(Session session = HibernateUtil.getSessionFactory().openSession()){
-            User user = new User();
+            User user;
             user = session.find(User.class, id);
             return user;
         }

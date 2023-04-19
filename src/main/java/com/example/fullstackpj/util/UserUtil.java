@@ -1,7 +1,7 @@
-package com.example.fullstackpj.Util;
+package com.example.fullstackpj.util;
 import java.util.List;
-import com.example.fullstackpj.Entities.User;
-import com.example.fullstackpj.DAO.UserDAO;
+import com.example.fullstackpj.entities.User;
+import com.example.fullstackpj.dao.UserDAO;
 public class UserUtil {
 
     private UserDAO userDao = new UserDAO();
@@ -16,11 +16,11 @@ public class UserUtil {
 
     public void printUserList(){
         List <User> userList = userDao.getUserList();
-        userList.forEach(x -> System.out.println("The current user id is: " + x.getUserId()));
+        userList.forEach(x -> System.out.println("The current user id is: " + x.getId()));
     }
 
     public void printUser(int x){
         User userToPrint = userDao.getUser(x);
-        System.out.println("The selected user is: " + userToPrint.getUserId());
+        System.out.println("The selected user is: " + userToPrint.getId());
     }
 }

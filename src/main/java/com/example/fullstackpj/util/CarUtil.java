@@ -1,8 +1,8 @@
-package com.example.fullstackpj.Util;
-
+package com.example.fullstackpj.util;
 import java.util.List;
-import com.example.fullstackpj.Entities.Car;
-import com.example.fullstackpj.DAO.CarDAO;
+import com.example.fullstackpj.entities.Car;
+import com.example.fullstackpj.dao.CarDAO;
+
 public class CarUtil {
 
     private CarDAO carDao = new CarDAO();
@@ -17,11 +17,11 @@ public class CarUtil {
 
     public void printCarList(){
         List <Car> carList = carDao.getCarList();
-        carList.forEach(x -> System.out.println("The current car id is: " + x.getCarId()));
+        carList.forEach(x -> System.out.println("The current car id is: " + x.getId()));
     }
 
     public void printCar(int x){
         Car carToPrint = carDao.getCar(x);
-        System.out.println("The selected car is: " + carToPrint.getCarId());
+        System.out.println("The selected car is: " + carToPrint.getId());
     }
 }

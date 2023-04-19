@@ -1,4 +1,4 @@
-package com.example.fullstackpj.Util;
+package com.example.fullstackpj.util;
 
 import java.util.Properties;
 
@@ -7,7 +7,7 @@ import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.cfg.Environment;
 import org.hibernate.service.ServiceRegistry;
-import com.example.fullstackpj.Entities.*;
+import com.example.fullstackpj.entities.*;
 public class HibernateUtil {
 
     private static SessionFactory sessionFactory;

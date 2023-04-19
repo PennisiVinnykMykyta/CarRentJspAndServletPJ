@@ -1,11 +1,9 @@
-package com.example.fullstackpj.DAO;
+package com.example.fullstackpj.dao;
 import java.util.List;
-import com.example.fullstackpj.Util.HibernateUtil;
-import com.example.fullstackpj.Entities.Car;
+import com.example.fullstackpj.util.HibernateUtil;
+import com.example.fullstackpj.entities.Car;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-
-import java.beans.Expression;
 
 public class CarDAO { //need to add the update method
 
@@ -27,7 +25,7 @@ public class CarDAO { //need to add the update method
         Transaction transaction = null;
         try (Session session = HibernateUtil.getSessionFactory().openSession()){
             transaction = session.beginTransaction();
-            Car car = new Car();
+            Car car;
             car = session.find(Car.class,id);
             session.delete(car);
             session.flush();
@@ -40,15 +38,32 @@ public class CarDAO { //need to add the update method
         }
     }
 
+    public void updateCar(int id1,int id2){
+        Transaction transaction = null;
+        try(Session session = HibernateUtil.getSessionFactory().openSession()){
+            transaction = session.beginTransaction();
+            Car car;
+            car = (Car) session.load(Car.class, id1);
+            transaction.commit();
+            car.setId(id2);
+            transaction = session.beginTransaction();
+            session.update(car);
+
+
+
+        }
+    }
+
     public List<Car> getCarList(){ //view all of the cars
         try (Session session = HibernateUtil.getSessionFactory().openSession()){
             return  session.createQuery("from Car",Car.class).list();
+
         }
     }
 
     public Car getCar(int id){ // get the specific car
         try(Session session = HibernateUtil.getSessionFactory().openSession()){
-            Car car = new Car();
+            Car car;
             car = session.find(Car.class, id);
             return car;
         }

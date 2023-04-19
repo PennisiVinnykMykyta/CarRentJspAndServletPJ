@@ -2,8 +2,8 @@
 <persistence xmlns="http://java.sun.com/xml/ns/persistence" version="2.0">
     <persistence-unit name="default">
 
-        <class>com.example.fullstackpj.Entities.Car</class>
-        <class>com.example.fullstackpj.Entities.User</class>
+        <class>com.example.fullstackpj.entities.Car</class>
+        <class>com.example.fullstackpj.entities.User</class>
         <properties>
             <property name="toplink.jdbc.url"
                       value="jdbc:mysql://localhost:3306/fullstackpj?useSSL=false&amp;serverTimezone=Europe/Rome"/>
