@@ -11,6 +11,13 @@ public class Car implements Serializable {
     @Column(name = "car_id")
     private int id;
 
+    @Column(name = "booked")
+    private boolean state;
+
+    public boolean getState(){ return state; }
+
+    public void setState(boolean state){ this.state = state;}
+
     public int getId() {
         return id;
     }

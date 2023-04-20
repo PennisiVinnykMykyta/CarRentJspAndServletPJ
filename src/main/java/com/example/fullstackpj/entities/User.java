@@ -10,6 +10,28 @@ public class User implements  Serializable{
     @Column(name = "user_id")
     private int id;
 
+    @Column(name ="first_name")
+    private String firstName;
+
+    @Column(name ="last_name")
+    private String lastName;
+
+    @Column(name ="user_type")
+    private String userType;
+
+    public String getUserType(){ return userType;}
+
+    public void setUserType(String type){ this.userType = type;}
+
+    public String getFirstName(){ return firstName;}
+
+    public void setFirstName(String name){ this.firstName = name;}
+
+    public String getLastName(){ return lastName;}
+
+    public void setLastName(String name){ this.lastName = name;}
+
+
     public int getId() {
         return id;
     }

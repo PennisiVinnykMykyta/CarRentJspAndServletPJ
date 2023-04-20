@@ -3,6 +3,7 @@ import java.util.List;
 import com.example.fullstackpj.util.HibernateUtil;
 import com.example.fullstackpj.entities.Car;
 import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 
 public class CarDAO { //need to add the update method
@@ -10,7 +11,7 @@ public class CarDAO { //need to add the update method
     public void saveCar(Car car){ //save a specific car
         Transaction transaction = null;
         try (Session session = HibernateUtil.getSessionFactory().openSession()){
-            transaction = session.beginTransaction();;
+            transaction = session.beginTransaction();
             session.save(car);
             transaction.commit();
         }
@@ -38,19 +39,22 @@ public class CarDAO { //need to add the update method
         }
     }
 
-    public void updateCar(int id1,int id2){
+    public void updateCarState(int id, boolean state){ //change state for a specific car
         Transaction transaction = null;
         try(Session session = HibernateUtil.getSessionFactory().openSession()){
             transaction = session.beginTransaction();
             Car car;
-            car = (Car) session.load(Car.class, id1);
-            transaction.commit();
-            car.setId(id2);
-            transaction = session.beginTransaction();
+            car = session.get(Car.class,id);
+            car.setState(state);
             session.update(car);
+            session.flush();
+            transaction.commit();
 
-
-
+        }
+        catch(Exception e){
+            if(transaction == null ){
+                e.printStackTrace();
+            }
         }
     }
 

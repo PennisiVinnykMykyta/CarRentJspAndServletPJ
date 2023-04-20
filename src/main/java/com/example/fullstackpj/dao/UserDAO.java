@@ -1,6 +1,7 @@
 package com.example.fullstackpj.dao;
 import java.util.List;
 
+import com.example.fullstackpj.entities.Car;
 import com.example.fullstackpj.util.HibernateUtil;
 import com.example.fullstackpj.entities.User;
 import org.hibernate.Session;
@@ -30,6 +31,63 @@ public class UserDAO {
             session.delete(user);
             session.flush();
             transaction.commit();
+        }
+        catch(Exception e){
+            if(transaction == null ){
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public void updateUserFirstName(int id, String name){ //update a specific users name
+        Transaction transaction = null;
+        try(Session session = HibernateUtil.getSessionFactory().openSession()){
+            transaction = session.beginTransaction();
+            User user;
+            user = session.get(User.class,id);
+            user.setFirstName(name);
+            session.update(user);
+            session.flush();
+            transaction.commit();
+
+        }
+        catch(Exception e){
+            if(transaction == null ){
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public void updateUserLastName(int id, String name){ //update a specific users name
+        Transaction transaction = null;
+        try(Session session = HibernateUtil.getSessionFactory().openSession()){
+            transaction = session.beginTransaction();
+            User user;
+            user = session.get(User.class,id);
+            user.setLastName(name);
+            session.update(user);
+            session.flush();
+            transaction.commit();
+
+        }
+        catch(Exception e){
+            if(transaction == null ){
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public void updateUserType(int id, String type){ //update a specific users name
+        Transaction transaction = null;
+        try(Session session = HibernateUtil.getSessionFactory().openSession()){
+            transaction = session.beginTransaction();
+            User user;
+            user = session.get(User.class,id);
+            user.setUserType(type);
+            session.update(user);
+            session.flush();
+            transaction.commit();
+
         }
         catch(Exception e){
             if(transaction == null ){
