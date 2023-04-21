@@ -1,13 +1,19 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+
 <!DOCTYPE html>
 <html>
 <head>
-    <title>JSP - Hello World</title>
+    <title>Welcome Page</title>
 </head>
 <body>
-<h1><%= "Hello World!" %>
-</h1>
-<br/>
-<a href="hello-servlet">Hello Servlet</a>
+<h2><%= "Welcome to the Rent Car Site!" %>
+</h2>
+
+<h3><%= "Please login to continue:"%></h3> <!--only Admin can register new users-->
+
+<a href="login.jsp">Login</a>
+
+<br/><br/>
+
 </body>
 </html>
