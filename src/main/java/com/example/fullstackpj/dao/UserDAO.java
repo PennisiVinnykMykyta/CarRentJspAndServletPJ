@@ -4,6 +4,9 @@ import com.example.fullstackpj.util.HibernateUtil;
 import com.example.fullstackpj.entities.User;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+
+import javax.persistence.Query;
+
 public class UserDAO {
 
     public void deleteById(int id){ //delete a user with a specific id
@@ -49,6 +52,16 @@ public class UserDAO {
             User user;
             user = session.find(User.class, id);
             return user;
+        }
+    }
+
+    public User findByEmailAndPassword(String mail,String password){
+        try(Session session = HibernateUtil.getSessionFactory().openSession()){
+            String command = "from User where password = :pippo AND email = :mail";
+            Query query = session.createQuery(command);
+            query.setParameter("pippo",password);
+            query.setParameter("mail",mail);
+            return (User) query.getSingleResult();
         }
     }
 }
