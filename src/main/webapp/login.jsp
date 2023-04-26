@@ -1,34 +1,19 @@
-<%@ page import="com.example.fullstackpj.entities.enums.UserType" %>
-<%@ page import="com.example.fullstackpj.servlets.Login" %>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
 <html>
-<head>
+<head> <!-- test customer: kyleleroy@yahoo.com 1222 -->
     <title>Login Page</title>
 </head>
 <body>
 
 <h4>Please enter your Credentials:</h4>
 
-<form action="login" method="GET">
+<form action="login" method="POST">
 
-    First Name: <input type="text" name="firstName"/>
-
-    <br/><br/>
-
-    Last Name: <input type="text" name="lastName" />
+    Email: <input type = "text" name="email">
 
     <br/><br/>
 
     Password: <input type="text" name="password" />
-
-    <br/><br/>
-
-    <tr>
-        <td>Enter as:</td>
-        <td><input type="radio" name="type" value="admin" />Admin</td>
-        <td><input type="radio" name="type" value="customer" />Customer</td>
-
-    </tr>
 
     <br/><br/>
 

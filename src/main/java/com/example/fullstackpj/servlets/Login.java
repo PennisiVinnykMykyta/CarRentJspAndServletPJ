@@ -1,19 +1,27 @@
 package com.example.fullstackpj.servlets;
 
-import java.io.*;
-import javax.servlet.ServletException;
-import javax.servlet.http.*;
-import javax.servlet.annotation.*;
-
-
 import com.example.fullstackpj.dao.UserDAO;
 import com.example.fullstackpj.entities.User;
+import com.example.fullstackpj.entities.enums.UserType;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.PrintWriter;
 
 @WebServlet(name = "LoginServlet", value = "/login")
 public class Login extends HttpServlet {
 
-@Override
+    @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html");
         PrintWriter out = response.getWriter();
 
@@ -24,26 +32,15 @@ public class Login extends HttpServlet {
         UserDAO userDao = new UserDAO();
         User user = userDao.findByEmailAndPassword(guestMail,guestPassword);
 
-        if(user != null){                          //check if the user with given credentials is present in the database
-            request.setAttribute("user",user);  //if the user exists prepare to send his info to the appropriate page
-            if(user.getType().equals(0)){
+        if (user != null) {                          //check if the user with given credentials is present in the database
+            request.setAttribute("user", user);  //if the user exists prepare to send his info to the appropriate page
+            if (user.getType().equals(UserType.ADMIN)) {
                 request.getRequestDispatcher("adminHomepage.jsp").forward(request, response);
-            }else{
+            } else {
                 request.getRequestDispatcher("userHomepage.jsp").forward(request, response);
             }
-        }else{
-            out.println("<html><body>");
-            out.println("<h3>" + "Sorry but these credentials do not match any user in our database" + "</h3>");
-            out.println("<a href=\"login.jsp\">Go back to login menu</a>");
-            out.println("</body></html>");
+        } else {
+            request.getRequestDispatcher("failedLogin.jsp").forward(request, response);;
         }
-    }
-
-    @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        super.doPost(req, resp);
-    }
-
-    public void destroy() {
     }
 }

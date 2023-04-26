@@ -5,7 +5,12 @@ import com.example.fullstackpj.entities.User;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
+import javax.persistence.NoResultException;
 import javax.persistence.Query;
+
+import static javax.swing.SwingConstants.LEFT;
+import static org.hibernate.FetchMode.JOIN;
+import static org.hibernate.hql.internal.antlr.HqlTokenTypes.FETCH;
 
 public class UserDAO {
 
@@ -43,7 +48,9 @@ public class UserDAO {
 
     public List<User> findAll(){ //view all users
         try (Session session = HibernateUtil.getSessionFactory().openSession()){
-            return  session.createQuery("from User",User.class).list();
+            return  session.createQuery("SELECT s from User s LEFT JOIN FETCH s.bookings",User.class).list();
+        }catch(NoResultException exception){
+            return null;
         }
     }
 
@@ -52,16 +59,20 @@ public class UserDAO {
             User user;
             user = session.find(User.class, id);
             return user;
+        }catch(NoResultException exception){
+            return null;
         }
     }
 
     public User findByEmailAndPassword(String mail,String password){
         try(Session session = HibernateUtil.getSessionFactory().openSession()){
-            String command = "from User where password = :pippo AND email = :mail";
+            String command = "select s from User s LEFT JOIN FETCH s.bookings where  s.password = :pippo AND s.email = :mail";
             Query query = session.createQuery(command);
             query.setParameter("pippo",password);
             query.setParameter("mail",mail);
             return (User) query.getSingleResult();
+        }catch(NoResultException exception){
+            return null;
         }
     }
 }
