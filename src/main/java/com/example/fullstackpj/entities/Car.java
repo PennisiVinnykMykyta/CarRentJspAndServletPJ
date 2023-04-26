@@ -24,11 +24,18 @@ public class Car implements Serializable {
     @Column(name = "brand")
     private String brand;
 
-    @OneToMany(mappedBy = "car")
+    @OneToMany(mappedBy = "car", fetch = FetchType.EAGER)
     List<Book> bookings;
 
     public Car(int id, String numberPlate, String color, String model, String brand) {
         this.id = id;
+        this.numberPlate = numberPlate;
+        this.color = color;
+        this.model = model;
+        this.brand = brand;
+    }
+
+    public Car(String numberPlate, String color, String model, String brand) {
         this.numberPlate = numberPlate;
         this.color = color;
         this.model = model;

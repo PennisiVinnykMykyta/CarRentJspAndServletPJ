@@ -4,9 +4,9 @@ import com.example.fullstackpj.entities.enums.UserType;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
-import java.util.Set;
 
 @Entity
 public class User implements  Serializable{
@@ -14,15 +14,6 @@ public class User implements  Serializable{
     @Id
     @Column(name = "user_id")
     private int id;
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-//add email
 
     @Column(name = "email")
     private String email;
@@ -50,8 +41,7 @@ public class User implements  Serializable{
     @Column(name = "birth_date")
     private Date birthDate;
 
-
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
     private List<Book> bookings;
 
     public List<Book> getBookings() {
@@ -62,17 +52,13 @@ public class User implements  Serializable{
         this.bookings = bookings;
     }
 
-    public User(int id, String password, String firstName, String lastName, UserType type, Date birthDate, List<Book> bookings) {
-        this.id = id;
-        this.password = password;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.type = type;
-        this.birthDate = birthDate;
-        this.bookings = bookings;
+    public String getPassword() {
+        return password;
     }
 
-    public  User(){}
+    public void setPassword(String password) {
+        this.password = password;
+    }
 
     public int getId() {
         return id;
@@ -113,4 +99,26 @@ public class User implements  Serializable{
     public void setBirthDate(Date birthDate) {
         this.birthDate = birthDate;
     }
+
+    public User(int id, String password, String firstName, String lastName, UserType type, Date birthDate, List<Book> bookings) {
+        this.id = id;
+        this.password = password;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.type = type;
+        this.birthDate = birthDate;
+        this.bookings = bookings;
+    }
+
+    public User(String password, String firstName, String lastName, UserType type, Date birthDate, List<Book> bookings) {
+        this.password = password;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.type = type;
+        this.birthDate = birthDate;
+        this.bookings = bookings;
+    }
+
+    public  User(){}
 }
+
