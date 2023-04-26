@@ -1,6 +1,7 @@
 package com.example.fullstackpj.servlets;
 
 import com.example.fullstackpj.dao.CarDAO;
+import com.example.fullstackpj.entities.Car;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -29,6 +30,27 @@ public class CarServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String command = request.getParameter("command");
+        switch (command){
+            case "addCar":
+                addCar(request,response);
+                break;
+        }
+    }
+
+    protected  void addCar(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        //get user info from addUser.jsp
+        String color = request.getParameter("color");
+        String plateNumber = request.getParameter("plate");
+        String model = request.getParameter("model");
+        String brand = request.getParameter("brand");
+
+        //now we create the new car and add it
         CarDAO carDao = new CarDAO();
+        Car car = new Car(plateNumber,color,model,brand);
+        carDao.saveOrUpdateCar(car);
+
+        request.getRequestDispatcher("adminHomepage.jsp").forward(request,response);
+
     }
 }

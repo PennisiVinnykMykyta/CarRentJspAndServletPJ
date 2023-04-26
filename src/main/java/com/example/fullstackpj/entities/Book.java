@@ -1,29 +1,38 @@
 package com.example.fullstackpj.entities;
 
-
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.Date;
 
 @Entity
 public class Book {
 
     @Id
-    int id;
+    private int id;
 
-    @ManyToOne
+    @ManyToOne(fetch =  FetchType.EAGER)
     @JoinColumn(name = "user_id")
-    User user;
+    private User user;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "car_id")
-    Car car;
+    private Car car;
 
-    Date startDate;
+    public Book(){}
 
-    Date endDate;
+    public Book(User user, Car car, LocalDate startDate, LocalDate endDate) {
+        this.user = user;
+        this.car = car;
+        this.startDate = startDate;
+        this.endDate = endDate;
+    }
+
+    private LocalDate startDate;
+
+    private LocalDate endDate;
 
     public int getId() {
         return id;
@@ -49,19 +58,19 @@ public class Book {
         this.car = car;
     }
 
-    public Date getStartDate() {
+    public LocalDate getStartDate() {
         return startDate;
     }
 
-    public void setStartDate(Date startDate) {
+    public void setStartDate(LocalDate startDate) {
         this.startDate = startDate;
     }
 
-    public Date getEndDate() {
+    public LocalDate getEndDate() {
         return endDate;
     }
 
-    public void setEndDate(Date endDate) {
+    public void setEndDate(LocalDate endDate) {
         this.endDate = endDate;
     }
 }

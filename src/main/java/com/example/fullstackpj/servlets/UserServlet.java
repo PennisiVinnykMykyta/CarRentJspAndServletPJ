@@ -1,8 +1,6 @@
 package com.example.fullstackpj.servlets;
 
-import com.example.fullstackpj.dao.CarDAO;
 import com.example.fullstackpj.dao.UserDAO;
-import com.example.fullstackpj.entities.Car;
 import com.example.fullstackpj.entities.User;
 import com.example.fullstackpj.entities.enums.UserType;
 
@@ -14,8 +12,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.util.Date;
+import java.util.List;
 
 @WebServlet(name = "UserServlet", value = "/user")
 
@@ -23,14 +21,23 @@ public class UserServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        UserDAO userDao = new UserDAO();
-        User user = (User) request.getAttribute("user");
-        request.setAttribute("name", user.getFirstName());
-        request.setAttribute("lastName", user.getLastName());
-        request.setAttribute("user", user.getLastName());
-        request.setAttribute("password", user.getPassword());
-        request.setAttribute("birthDate", user.getBirthDate());
 
+        String command = request.getParameter("userType");
+
+        switch (command){
+            case "customer" :
+                break;
+            case "admin" :
+                showUserList(request,response);
+                break;
+        }
+    }
+
+    protected void showUserList(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        UserDAO userDAO = new UserDAO();
+        List<User> userList = userDAO.findAll();
+        request.setAttribute("userList",userList);
+        request.getRequestDispatcher("adminHomepage.jsp").forward(request,response);
     }
 
     @Override
@@ -39,6 +46,7 @@ public class UserServlet extends HttpServlet {
         int id = (int) request.getAttribute("id");
         User user = userDao.findById(id);
         userDao.saveOrUpdateUser(user);
+        request.getRequestDispatcher("adminHomepage.jsp").forward(request,response);
     }
 
     @Override
@@ -46,11 +54,19 @@ public class UserServlet extends HttpServlet {
         UserDAO userDao = new UserDAO();
         int id = (int) request.getAttribute("id");
         userDao.deleteById(id);
+        request.getRequestDispatcher("adminHomepage.jsp").forward(request,response);
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+        String command = request.getParameter("command");
+        switch (command){
+            case "addUser":
+                addUser(request,response);
+                break;
+            default:
+                request.getRequestDispatcher("adminHomepage.jsp").forward(request,response);
+        }
     }
 
     protected  void addUser(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -77,24 +93,10 @@ public class UserServlet extends HttpServlet {
 
         //now we create the user and add it
         UserDAO userDao = new UserDAO();
-        User user = new User(password, firstName, lastName, userType, date, null);
+        User user = new User(email,password, firstName, lastName, userType, date, null);
         userDao.saveOrUpdateUser(user);
 
-    }
-
-    protected  void addCar(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        //get user info from addUser.jsp
-        String color = request.getParameter("color");
-        String plateNumber = request.getParameter("plate");
-        String model = request.getParameter("model");
-        String brand = request.getParameter("brand");
-
-        //now we create the new car and add it
-        CarDAO carDao = new CarDAO();
-        Car car = new Car(plateNumber,color,model,brand);
-        carDao.saveOrUpdateCar(car);
+        request.getRequestDispatcher("adminHomepage.jsp").forward(request,response);
 
     }
-
-
 }
