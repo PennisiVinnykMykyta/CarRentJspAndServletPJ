@@ -34,6 +34,8 @@ public class UserServlet extends HttpServlet {
                 break;
             case "profile" :
                 showUserProfile(request,response);
+            case "adminProfile" :
+                showAdminProfile(request,response);
                 break;
         }
     }
@@ -48,8 +50,11 @@ public class UserServlet extends HttpServlet {
     }
 
     protected void showAdminHomepage(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        Integer id = Integer.parseInt(request.getParameter("id"));
         UserDAO userDAO = new UserDAO();
+        User user =  userDAO.findById(id);
         List<User> userList = userDAO.findAll();
+        request.setAttribute("user",user);
         request.setAttribute("userList",userList);
         request.getRequestDispatcher("adminHomepage.jsp").forward(request,response);
     }
@@ -78,6 +83,18 @@ public class UserServlet extends HttpServlet {
             request.getRequestDispatcher("changeProfile.jsp").forward(request,response);
         }else{
             request.getRequestDispatcher("showProfile.jsp").forward(request,response);
+        }
+    }
+
+    private void showAdminProfile(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        Integer id = Integer.parseInt(request.getParameter("id"));
+        UserDAO userDAO = new UserDAO();
+        User user = userDAO.findById(id);
+        request.setAttribute("user",user);
+        if(request.getParameter("command").equalsIgnoreCase("addAdminView")){
+            request.getRequestDispatcher("changeProfileAdmin.jsp").forward(request,response);
+        }else{
+            request.getRequestDispatcher("showProfileAdmin.jsp").forward(request,response);
         }
     }
 
@@ -135,6 +152,8 @@ public class UserServlet extends HttpServlet {
                 break;
             case "addUserView" :
                 showUserProfile(request,response);
+            case "addAdminView" :
+                showAdminProfile(request,response);
             default:
                 request.getRequestDispatcher("adminHomepage.jsp").forward(request,response);
         }

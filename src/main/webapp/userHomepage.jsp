@@ -1,8 +1,6 @@
-<%@ page import="com.example.fullstackpj.entities.Book" %>
-<%@ page import="com.example.fullstackpj.entities.User" %>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib uri = "http://java.sun.com/jsp/jstl/core" prefix = "c" %>
-<%@ page session = "true" %>
+
 <html>
 <head>
     <title>Customer Homepage</title>
@@ -19,7 +17,7 @@
 
 <c:forEach items="${bookingList}" var="book">
     <hr>
-    <h4>Booking number ${book.id}</h4>
+    <h4>Booking number ${book.getId()}</h4>
     Car: ${book.getCar().getBrand()} ${book.getCar().getModel()}<br>
     Color: ${book.getCar().getColor()}<br>
     Starting Date: ${book.getStartDate()}<br>
@@ -38,3 +36,4 @@
 
 </body>
 </html>
+

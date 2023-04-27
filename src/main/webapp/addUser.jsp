@@ -27,9 +27,11 @@
     Birth Date: <input type="text" name="date" />
 
     <br/><br/>
-
-    Type of user: <input type="text" name="type" />
-
+<tr>
+    <td>Type of user:</td>
+    <td><input type="radio" name="type" value="admin" />Admin</td>
+    <td><input  type="radio" name="type" value="customer" checked="true" />Customer</td>
+</tr>
     <br/><br/>
 
 

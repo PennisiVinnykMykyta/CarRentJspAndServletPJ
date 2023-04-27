@@ -34,11 +34,13 @@ public class Login extends HttpServlet {
 
         if (user != null) {                         //check if the user with given credentials is present in the database
             request.setAttribute("user", user);  //if the user exists prepare to send his info to the appropriate page
-            List<Book> bookList = user.getBookings();
-            request.setAttribute("bookingList", bookList);
             if (user.getType().equals(UserType.ADMIN)){
+                List<User> userList = userDao.findAll();
+                request.setAttribute("userList", userList);
                 request.getRequestDispatcher("adminHomepage.jsp").forward(request, response);
             } else {
+                List<Book> bookList = user.getBookings();
+                request.setAttribute("bookingList", bookList);
                 request.getRequestDispatcher("userHomepage.jsp").forward(request, response);
             }
         } else {
