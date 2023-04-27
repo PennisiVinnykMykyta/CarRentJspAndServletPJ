@@ -1,6 +1,7 @@
 package com.example.fullstackpj.servlets;
 
 import com.example.fullstackpj.dao.UserDAO;
+import com.example.fullstackpj.entities.Book;
 import com.example.fullstackpj.entities.User;
 import com.example.fullstackpj.entities.enums.UserType;
 
@@ -22,25 +23,37 @@ public class UserServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        String command = request.getParameter("userType");
+        String command = request.getParameter("command");
 
         switch (command){
             case "customer" :
+                showUserHomepage(request,response);
                 break;
             case "admin" :
-                showUserList(request,response);
+                showAdminHomepage(request,response);
+                break;
+            case "profile" :
+                showUserProfile(request,response);
                 break;
         }
     }
 
-    protected void showUserList(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected  void showUserHomepage(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
+        Integer id = Integer.parseInt(request.getParameter("id"));
+        UserDAO userDAO = new UserDAO();
+        User user =  userDAO.findById(id);
+        request.setAttribute("user",user);
+        request.setAttribute("bookingList",user.getBookings());
+        request.getRequestDispatcher("userHomepage.jsp").forward(request,response);
+    }
+
+    protected void showAdminHomepage(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         UserDAO userDAO = new UserDAO();
         List<User> userList = userDAO.findAll();
         request.setAttribute("userList",userList);
         request.getRequestDispatcher("adminHomepage.jsp").forward(request,response);
     }
 
-    @Override
     protected void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         UserDAO userDao = new UserDAO();
         int id = (int) request.getAttribute("id");
@@ -49,7 +62,6 @@ public class UserServlet extends HttpServlet {
         request.getRequestDispatcher("adminHomepage.jsp").forward(request,response);
     }
 
-    @Override
     protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         UserDAO userDao = new UserDAO();
         int id = (int) request.getAttribute("id");
@@ -57,20 +69,21 @@ public class UserServlet extends HttpServlet {
         request.getRequestDispatcher("adminHomepage.jsp").forward(request,response);
     }
 
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String command = request.getParameter("command");
-        switch (command){
-            case "addUser":
-                addUser(request,response);
-                break;
-            default:
-                request.getRequestDispatcher("adminHomepage.jsp").forward(request,response);
+    private void showUserProfile(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        Integer id = Integer.parseInt(request.getParameter("id"));
+        UserDAO userDAO = new UserDAO();
+        User user = userDAO.findById(id);
+        request.setAttribute("user",user);
+        if(request.getParameter("command").equalsIgnoreCase("addUserView")){
+            request.getRequestDispatcher("changeProfile.jsp").forward(request,response);
+        }else{
+            request.getRequestDispatcher("showProfile.jsp").forward(request,response);
         }
     }
 
     protected  void addUser(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         //get user info from addUser.jsp
+        Integer id = Integer.parseInt(request.getParameter("id"));
         String firstName = request.getParameter("firstName");
         String lastName = request.getParameter("lastName");
         String email = request.getParameter("email");
@@ -93,10 +106,37 @@ public class UserServlet extends HttpServlet {
 
         //now we create the user and add it
         UserDAO userDao = new UserDAO();
-        User user = new User(email,password, firstName, lastName, userType, date, null);
+        User user = null;
+        if(id != null){
+            user = new User(id,email,password, firstName, lastName, userType, date);
+        }else{
+            user = new User(email,password, firstName, lastName, userType, date);
+        }
         userDao.saveOrUpdateUser(user);
 
-        request.getRequestDispatcher("adminHomepage.jsp").forward(request,response);
+        if(request.getParameter("type").equalsIgnoreCase("customer")){
+            request.setAttribute("user",user); //here the id of a user to modify and id of a user who requested it is the same
+            List<Book> bookList = user.getBookings();
+            request.setAttribute("bookingList", bookList);
+            request.getRequestDispatcher("userHomepage.jsp").forward(request,response);
+        }else{
+            //will need the id of the admin!!!
+            request.getRequestDispatcher("adminHomepage.jsp").forward(request,response);
+        }
 
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String command = request.getParameter("command");
+        switch (command){
+            case "addUser":
+                addUser(request,response);
+                break;
+            case "addUserView" :
+                showUserProfile(request,response);
+            default:
+                request.getRequestDispatcher("adminHomepage.jsp").forward(request,response);
+        }
     }
 }

@@ -37,7 +37,8 @@
 
 </form>
 <form action="user" method="GET">
-    <input type="hidden" name="userType" value="admin" />
+    <input type="hidden" name="command" value="admin" />
+    <input type="hidden" name="id" value="${user.getId()}">
     <input type="submit" value="Go back to the homepage.">
 </form>
 </body>

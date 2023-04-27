@@ -2,6 +2,7 @@
 <%@ page import="com.example.fullstackpj.entities.User" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri = "http://java.sun.com/jsp/jstl/core" prefix = "c" %>
+<%@ page session = "true" %>
 <html>
 <head>
     <title>Customer Homepage</title>
@@ -16,15 +17,23 @@
 
 <h3>List of you're bookings:</h3>
 
-<c:forEach items="${user.getBookings()}" var="book">
+<c:forEach items="${bookingList}" var="book">
     <hr>
-    <h4>Booking number ${book.getId()}</h4>
+    <h4>Booking number ${book.id}</h4>
     Car: ${book.getCar().getBrand()} ${book.getCar().getModel()}<br>
+    Color: ${book.getCar().getColor()}<br>
     Starting Date: ${book.getStartDate()}<br>
     Drop-off Date: ${book.getEndDate()}<br>
     <input type = "submit" value = "Modify"> <input type = "submit" value = "Cancel">
     <hr>
 </c:forEach>
+
+
+<form action="user" method="GET">
+    <input type="hidden" name="command" value="profile" />
+    <input type="hidden" name="id" value="${user.getId()}" />
+    <input type="submit" value="View Your Profile">
+</form>
 
 
 </body>

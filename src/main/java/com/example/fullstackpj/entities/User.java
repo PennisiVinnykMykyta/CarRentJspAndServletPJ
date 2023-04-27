@@ -100,23 +100,23 @@ public class User implements  Serializable{
         this.birthDate = birthDate;
     }
 
-    public User(int id, String password, String firstName, String lastName, UserType type, Date birthDate, List<Book> bookings) {
+    public User(int id, String email, String password, String firstName, String lastName, UserType type, Date birthDate) {
         this.id = id;
+        this.email = email;
         this.password = password;
         this.firstName = firstName;
         this.lastName = lastName;
         this.type = type;
         this.birthDate = birthDate;
-        this.bookings = bookings;
     }
 
-    public User(String password, String firstName, String lastName, UserType type, Date birthDate, List<Book> bookings) {
+    public User(String email, String password, String firstName, String lastName, UserType type, Date birthDate) {
+        this.email = email;
         this.password = password;
         this.firstName = firstName;
         this.lastName = lastName;
         this.type = type;
         this.birthDate = birthDate;
-        this.bookings = bookings;
     }
 
     public  User(){}
