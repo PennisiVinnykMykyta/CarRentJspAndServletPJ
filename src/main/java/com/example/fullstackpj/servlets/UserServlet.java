@@ -152,8 +152,9 @@ public class UserServlet extends HttpServlet {
         String adminCheck = request.getParameter("adminID"); //see if the request was done by admin or by the user
 
         if(adminCheck == null || adminCheck.isEmpty()){
-            request.setAttribute("user",user);
-            List<Book> bookList = user.getBookings();
+            User userLoaded = userDao.findByEmailAndPassword(email,password); //have to load updated user separately else he'll be null
+            request.setAttribute("user",userLoaded);
+            List<Book> bookList = userLoaded.getBookings();
             request.setAttribute("bookingList", bookList);
             request.getRequestDispatcher("userHomepage.jsp").forward(request,response);
         }else{

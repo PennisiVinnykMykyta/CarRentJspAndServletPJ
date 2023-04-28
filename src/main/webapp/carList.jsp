@@ -5,7 +5,7 @@
     <title>Car List</title>
 </head>
 <body>
-<h3>Accessed by: ${user.firstName} ${user.lastName}</h3>
+<h3>Accessed by: ${admin.firstName} ${admin.lastName}</h3>
 
 <form action="user" method="GET">
     <input type="hidden" name="command" value="admin" />
