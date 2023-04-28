@@ -34,8 +34,12 @@ public class UserServlet extends HttpServlet {
                 break;
             case "profile" :
                 showUserProfile(request,response);
+                break;
             case "adminProfile" :
                 showAdminProfile(request,response);
+                break;
+            case "userList" :
+                viewUserList(request,response);
                 break;
         }
     }
@@ -68,19 +72,20 @@ public class UserServlet extends HttpServlet {
         Integer id = Integer.parseInt(request.getParameter("adminID"));
         User user = userDao.findById(id);
         request.setAttribute("admin",user);
-        request.getRequestDispatcher("addUser.jsp").forward(request,response);
+
+        if(request.getParameter("object").equalsIgnoreCase("user")){
+            request.getRequestDispatcher("addUser.jsp").forward(request,response);
+        } else if (request.getParameter("object").equalsIgnoreCase("car")) {
+            request.getRequestDispatcher("addCar.jsp").forward(request,response);
+        }
+
     }
 
     protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         UserDAO userDao = new UserDAO();
         Integer id = Integer.parseInt(request.getParameter("deleteID")); //get id to delete
         userDao.deleteById(id);
-        List<User> userList = userDao.findAll(); //after deleting prep admin adn his list to get sent to the homepage
-        request.setAttribute("userList",userList);
-        Integer adminID = Integer.parseInt(request.getParameter("adminID"));
-        User user = userDao.findById(adminID);
-        request.setAttribute("user",user);
-        request.getRequestDispatcher("adminHomepage.jsp").forward(request,response);
+        viewUserList(request,response);
     }
 
     private void showUserProfile(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -144,7 +149,7 @@ public class UserServlet extends HttpServlet {
         }
         userDao.saveOrUpdateUser(user);
 
-        String adminCheck = request.getParameter("adminID");
+        String adminCheck = request.getParameter("adminID"); //see if the request was done by admin or by the user
 
         if(adminCheck == null || adminCheck.isEmpty()){
             request.setAttribute("user",user);
@@ -155,33 +160,44 @@ public class UserServlet extends HttpServlet {
             Integer adminID = Integer.parseInt(request.getParameter("adminID"));
             User admin = userDao.findById(adminID);
             request.setAttribute("user",admin);
-            List<User> userList = userDao.findAll();
-            request.setAttribute("userList",userList);
             request.getRequestDispatcher("adminHomepage.jsp").forward(request,response);
         }
 
+    }
+
+
+    protected void viewUserList(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        Integer id = Integer.parseInt(request.getParameter("adminID"));
+        UserDAO userDAO = new UserDAO();
+        User user = userDAO.findById(id);
+        request.setAttribute("admin", user);
+        List<User> userList = userDAO.findAll();
+        request.setAttribute("userList",userList);
+        request.getRequestDispatcher("userList.jsp").forward(request,response);
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String command = request.getParameter("command");
         switch (command){
-            case "addUser":
+            case "addUser": //operation to add a user
                 addUser(request,response);
                 break;
-            case "addUserView" :
+            case "addUserView" : // the request to either show the user page or to modify it
                 showUserProfile(request,response);
                 break;
-            case "addAdminView" :
+            case "addAdminView" : // the request to either show the admin page or to modify it
                 showAdminProfile(request,response);
                 break;
             case "delete" :
                 doDelete(request,response);
                 break;
-            case "addUserPage" :
+            case "addPage" : // the request to get the page for the creation of a new user
                 doPut(request,response);
+                break;
             default:
                 request.getRequestDispatcher("adminHomepage.jsp").forward(request,response);
+                break;
         }
     }
 }

@@ -44,6 +44,9 @@
             Color
         </th>
         <th>
+            Number plate
+        </th>
+        <th>
             Starting Date
         </th>
         <th>
@@ -66,6 +69,9 @@
             </td>
             <td>
                 ${book.car.color}
+            </td>
+            <td>
+                ${book.car.numberPlate}
             </td>
             <td>
                 ${book.startDate}

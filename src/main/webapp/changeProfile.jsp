@@ -5,21 +5,21 @@
 </head>
 <body>
 <form action="user" method="POST">
-  First Name: <input type = "text" name = "firstName" value="${user.getFirstName()}">
+  First Name: <input type = "text" name = "firstName" value="${user.firstName}">
   <br><br>
-  Last Name: <input type = "text" name = "lastName" value="${user.getLastName()}">
+  Last Name: <input type = "text" name = "lastName" value="${user.lastName}">
   <br><br>
-  Email: <input type = "text" name = "email" value="${user.getEmail()}">
+  Email: <input type = "text" name = "email" value="${user.email}">
   <br><br>
-  Password: <input type="text" name = "password" value="${user.getPassword()}">
+  Password: <input type="text" name = "password" value="${user.password}">
   <br><br>
-  Birthday(year-month-day): <input type="text" name = "date" value="${user.getBirthDate()}">
+  Birthday(year-month-day): <input type="text" name = "date" value="${user.birthDate}">
   <br><br>
 
 
   <input type="hidden" name="command" value="addUser"/>
-  <input type="hidden" name="id" value="${user.getId()}" />
-  <input type="hidden" name="type" value="${user.getType()}" />
+  <input type="hidden" name="id" value="${user.id}" />
+  <input type="hidden" name="type" value="${user.type}" />
   <input type="hidden" name="adminID" value="${adminID}" />
   <input type="submit" value="Submit" />
 
@@ -27,7 +27,7 @@
 
 <form action="user" method="GET">
   <input type="hidden" name="command" value="customer"/>
-  <input type="hidden" name="id" value="${user.getId()}"/>
+  <input type="hidden" name="id" value="${user.id}"/>
   <input type="hidden" name="adminID" value="${adminID}" />
   <input type="submit" value="Cancel" />
 </form>

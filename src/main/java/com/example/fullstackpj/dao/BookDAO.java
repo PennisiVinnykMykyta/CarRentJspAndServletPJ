@@ -5,8 +5,6 @@ import com.example.fullstackpj.util.HibernateUtil;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
-import java.util.List;
-
 public class BookDAO {
     public void deleteById(int id){ //delete a specific booking instance
         Transaction transaction = null;
