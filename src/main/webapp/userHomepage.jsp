@@ -8,31 +8,77 @@
 <body>
 <h2>Welcome customer: ${user.getFirstName()} ${user.getLastName()}</h2>
 
-<form action="bookCar.jsp">
-    <input type = "submit" value = "Make a booking">
-</form>
 
+<table>
+    <tr>
+        <td>
+            <form action="bookCar.jsp">
+                <input type = "submit" value = "Make a booking">
+            </form>
+        </td>
+        <td>
+            <form action="user" method="GET">
+            <input type="hidden" name="command" value="profile" />
+            <input type="hidden" name="id" value="${user.id}" />
+            <input type="submit" value="View Your Profile">
+            </form>
+
+        </td>
+    </tr>
+</table>
 
 <h3>List of you're bookings:</h3>
 
-<c:forEach items="${bookingList}" var="book">
-    <hr>
-    <h4>Booking number ${book.getId()}</h4>
-    Car: ${book.getCar().getBrand()} ${book.getCar().getModel()}<br>
-    Color: ${book.getCar().getColor()}<br>
-    Starting Date: ${book.getStartDate()}<br>
-    Drop-off Date: ${book.getEndDate()}<br>
-    <input type = "submit" value = "Modify"> <input type = "submit" value = "Cancel">
-    <hr>
-</c:forEach>
-
-
-<form action="user" method="GET">
-    <input type="hidden" name="command" value="profile" />
-    <input type="hidden" name="id" value="${user.getId()}" />
-    <input type="submit" value="View Your Profile">
-</form>
-
+<table border="1px">
+    <tr>
+        <th>
+            Booking Number
+        </th>
+        <th>
+            Car
+        </th>
+        <th>
+            Model
+        </th>
+        <th>
+            Color
+        </th>
+        <th>
+            Starting Date
+        </th>
+        <th>
+            Drop-Off Date
+        </th>
+        <th>
+            Options
+        </th>
+    </tr>
+    <c:forEach items="${bookingList}" var="book">
+        <tr>
+            <td>
+                ${book.id}
+            </td>
+            <td>
+                ${book.car.brand}
+            </td>
+            <td>
+                ${book.car.model}
+            </td>
+            <td>
+                ${book.car.color}
+            </td>
+            <td>
+                ${book.startDate}
+            </td>
+            <td>
+                ${book.endDate}
+            </td>
+            <td>
+                <input type = "submit" value = "Modify"> <input type = "submit" value = "Cancel">
+            </td>
+        </tr>
+    </c:forEach>
+</table>
 
 </body>
 </html>
