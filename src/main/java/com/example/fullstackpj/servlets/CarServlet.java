@@ -2,7 +2,6 @@ package com.example.fullstackpj.servlets;
 
 import com.example.fullstackpj.dao.CarDAO;
 import com.example.fullstackpj.dao.UserDAO;
-import com.example.fullstackpj.entities.Book;
 import com.example.fullstackpj.entities.Car;
 import com.example.fullstackpj.entities.User;
 
@@ -37,10 +36,6 @@ public class CarServlet extends HttpServlet {
         viewCarList(request,response);
     }
 
-    @Override
-    protected void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-    }
-
     protected  void addCar(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         //get user info from addUser.jsp
         String color = request.getParameter("color");
@@ -50,7 +45,7 @@ public class CarServlet extends HttpServlet {
 
         //now we create the new car and add it
         CarDAO carDao = new CarDAO();
-        Car car = null;
+        Car car;
         String stringID = request.getParameter("carID");
         if(stringID == null || stringID.isEmpty()){
             car = new Car(plateNumber,color,model,brand);

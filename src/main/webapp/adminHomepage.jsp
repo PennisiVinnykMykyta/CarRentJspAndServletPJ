@@ -10,15 +10,16 @@
 <body>
 <h3>Welcome admin: ${user.firstName} ${user.lastName}</h3>
 
-<table>
+<form action="user" method="GET">
+    <input type="hidden" name="command" value="adminProfile" />
+    <input type="hidden" name="id" value="${user.id}" />
+    <input type="submit" value="View Your Profile">
+</form>
+<br>
+<hr>
+<h3>Admin Functions:</h3>
+<table >
     <tr>
-        <td>
-            <form action="user" method="GET">
-                <input type="hidden" name="command" value="adminProfile" />
-                <input type="hidden" name="id" value="${user.id}" />
-                <input type="submit" value="View Your Profile">
-            </form>
-        </td>
         <td>
             <form action="user" method="POST">
                 <input type="hidden" name="command" value="addPage" />
@@ -36,6 +37,16 @@
             </form>
         </td>
         <td>
+            <form action="user" method="POST">
+                <input type="hidden" name="command" value="addPage" />
+                <input type="hidden" name="adminID" value="${user.id}" />
+                <input type="hidden" name="object" value="book" />
+                <input type="submit" value="Make a new Booking">
+            </form>
+        </td>
+    </tr>
+    <tr>
+        <td>
             <form action="user" method="GET">
                 <input type="hidden" name="command" value="userList" />
                 <input type="hidden" name="adminID" value="${user.id}" />
@@ -47,6 +58,13 @@
                 <input type="hidden" name="command" value="carList" />
                 <input type="hidden" name="adminID" value="${user.id}" />
                 <input type="submit" value="View Car List">
+            </form>
+        </td>
+        <td>
+            <form action="book" method="GET">
+                <input type="hidden" name="command" value="bookList" />
+                <input type="hidden" name="adminID" value="${user.id}" />
+                <input type="submit" value="View Booking List">
             </form>
         </td>
     </tr>

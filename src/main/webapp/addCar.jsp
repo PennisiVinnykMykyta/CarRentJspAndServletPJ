@@ -12,13 +12,13 @@
     <input type="hidden" name="carID" >
 
     Model: <input type = "text" name="model">
-    <br>
+    <br><br>
     Brand: <input type = "text" name="brand">
-    <br>
+    <br><br>
     Color: <input type = "text" name="color">
-    <br>
+    <br><br>
     NumberPlate: <input type = "text" name="plate">
-    <br>
+    <br><br>
     <input type="submit" value="Add New Car"/>
 
 </form>

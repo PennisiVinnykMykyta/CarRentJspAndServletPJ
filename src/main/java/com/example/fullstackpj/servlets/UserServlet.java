@@ -77,6 +77,8 @@ public class UserServlet extends HttpServlet {
             request.getRequestDispatcher("addUser.jsp").forward(request,response);
         } else if (request.getParameter("object").equalsIgnoreCase("car")) {
             request.getRequestDispatcher("addCar.jsp").forward(request,response);
+        } else if (request.getParameter("object").equalsIgnoreCase("book")) {
+            request.getRequestDispatcher("addBook.jsp").forward(request,response);
         }
 
     }
@@ -122,7 +124,7 @@ public class UserServlet extends HttpServlet {
         String password = request.getParameter("password");
         String dateForm = request.getParameter("date");
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        Date date = null;
+        Date date;
         try {
             date = simpleDateFormat.parse(dateForm);
         } catch (ParseException e) {
@@ -138,7 +140,7 @@ public class UserServlet extends HttpServlet {
 
         //now we create the user and add it
         UserDAO userDao = new UserDAO();
-        User user = null;
+        User user;
         String stringID = request.getParameter("id");
 
         if(stringID == null){

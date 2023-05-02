@@ -80,7 +80,15 @@
                 ${book.endDate}
             </td>
             <td>
-                <input type = "submit" value = "Modify"> <input type = "submit" value = "Cancel">
+                <input type = "submit" value = "Modify">
+
+                <form action="book" method="POST">
+                    <input type="hidden" name="command" value="delete" />
+                    <input type="hidden" name="userID" value="${user.id}" />
+                    <input type="hidden" name="deleteID" value="${book.id}">
+                    <input type="hidden" name="adminID" value="">
+                    <input type="submit" value="Delete Booking">
+                </form>
             </td>
         </tr>
     </c:forEach>

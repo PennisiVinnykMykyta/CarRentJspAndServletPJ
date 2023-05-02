@@ -32,6 +32,9 @@
         <th>
             Number Plate
         </th>
+        <th>
+            Options
+        </th>
     </tr>
 
     <c:forEach items="${carList}" var="car">
