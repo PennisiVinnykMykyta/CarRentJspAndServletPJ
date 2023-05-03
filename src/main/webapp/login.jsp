@@ -1,6 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <html>
-<head> <!-- test customer: kyleleroy@yahoo.com 1222 -->
+<head>
     <title>Login Page</title>
 </head>
 <body>

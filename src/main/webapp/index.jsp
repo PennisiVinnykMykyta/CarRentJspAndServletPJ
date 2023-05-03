@@ -9,7 +9,7 @@
 <h2><%= "Welcome to the Rent Car Site!" %>
 </h2>
 
-<h3><%= "Please login to continue:"%></h3> <!--only Admin can register new users-->
+<h3><%= "Please login to continue:"%></h3>
 
 <a href="login.jsp">Login</a>
 
