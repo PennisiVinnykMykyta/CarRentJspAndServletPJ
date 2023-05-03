@@ -18,10 +18,10 @@
   <br><br>
 
 
-  <input type="hidden" name="command" value="addUser"/>
-  <input type="hidden" name="adminID" value="${user.id}" />
-  <input type="hidden" name="id" value="${user.id}" />
-  <input type="hidden" name="type" value="${user.type}" />
+  <input type="hidden" name="command" value="addOrChangeUser"/>
+  <input type="hidden" name="request" value="change"/>
+  <input type="hidden" name="object" value="normalChange"/>
+  <input type="hidden" name="userID" value="${user.id}" />
   <input type="submit" value="Submit" />
 
 </form>
@@ -29,9 +29,9 @@
 <br>
 
 <form action="user" method="GET">
-  <input type="hidden" name="command" value="admin"/>
-  <input type="hidden" name="adminID" value="${user.getId()}"/>
-  <input type="submit" value="Cancel" />
+  <input type="hidden" name="command" value="adminHomepage"/>
+  <input type="hidden" name="userID" value="${user.id}"/>
+  <input type="submit" value="Go back to HomePage" />
 </form>
 
 </body>

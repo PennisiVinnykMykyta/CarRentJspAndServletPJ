@@ -18,15 +18,15 @@
 </form>
 
 <form action="user" method="POST">
-  <input type="hidden" name="command" value="addUserView" />
-  <input type="hidden" name="id" value="${user.id}" />
-  <input type="hidden" name="type" value="${user.type}" />
+  <input type="hidden" name="command" value="changeProfileUser" />
+  <input type="hidden" name="userID" value="${user.id}" />
+  <input type="hidden" name="object" value="normalChange" />
   <input type="submit" value="Change Profile" />
 </form>
 
 <form action="user" method="GET">
-  <input type="hidden" name="command" value="customer" />
-  <input type="hidden" name="id" value="${user.id}" />
+  <input type="hidden" name="command" value="customerHomepage" />
+  <input type="hidden" name="userID" value="${user.id}" />
   <input type="submit" value="Go Back" />
 </form>
 </body>

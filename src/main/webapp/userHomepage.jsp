@@ -8,18 +8,24 @@
 <body>
 <h2>Welcome customer: ${user.getFirstName()} ${user.getLastName()}</h2>
 
+<a href="login.jsp">Log Out</a>
+
+<br><br>
 
 <table>
     <tr>
         <td>
-            <form action="bookCar.jsp">
-                <input type = "submit" value = "Make a booking">
+            <form action="user" method="POST">
+                <input type="hidden" name="command" value="addPage" />
+                <input type="hidden" name="userID" value="${user.id}" />
+                <input type="hidden" name="object" value="book" />
+                <input type="submit" value="Make a new Booking">
             </form>
         </td>
         <td>
             <form action="user" method="GET">
             <input type="hidden" name="command" value="profile" />
-            <input type="hidden" name="id" value="${user.id}" />
+            <input type="hidden" name="userID" value="${user.id}" />
             <input type="submit" value="View Your Profile">
             </form>
 
@@ -53,10 +59,13 @@
             Drop-Off Date
         </th>
         <th>
+            Confirmation
+        </th>
+        <th>
             Options
         </th>
     </tr>
-    <c:forEach items="${bookingList}" var="book">
+    <c:forEach items="${bookList}" var="book">
         <tr>
             <td>
                 ${book.id}
@@ -80,13 +89,20 @@
                 ${book.endDate}
             </td>
             <td>
-                <input type = "submit" value = "Modify">
+                ${book.valid}
+            </td>
+            <td>
+                <form action="book" method="POST">
+                    <input type="hidden" name="command" value="addOrChangeBooking"/>
+                    <input type="hidden" name="userID" value="${user.id}"/>
+                    <input type="hidden" name="bookID" value="${book.id}">
+                    <input type="submit" value="Modify Booking">
+                </form>
 
                 <form action="book" method="POST">
                     <input type="hidden" name="command" value="delete" />
                     <input type="hidden" name="userID" value="${user.id}" />
                     <input type="hidden" name="deleteID" value="${book.id}">
-                    <input type="hidden" name="adminID" value="">
                     <input type="submit" value="Delete Booking">
                 </form>
             </td>

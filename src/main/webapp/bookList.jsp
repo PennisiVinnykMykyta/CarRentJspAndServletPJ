@@ -6,12 +6,12 @@
 </head>
 <body>
 
-<h3>Accessed by: ${admin.firstName} ${admin.lastName}</h3>
+<h3>Accessed by: ${user.firstName} ${user.lastName}</h3>
 
 
 <form action="user" method="GET">
-    <input type="hidden" name="command" value="admin"/>
-    <input type="hidden" name="adminID" value="${admin.id}"/>
+    <input type="hidden" name="command" value="adminHomepage"/>
+    <input type="hidden" name="userID" value="${user.id}"/>
     <input type="submit" value="Go Back"/>
 </form>
 
@@ -65,14 +65,14 @@
             <td>
                 <form action="book" method="POST">
                     <input type="hidden" name="command" value="acceptBook"/>
-                    <input type="hidden" name="adminID" value="${admin.id}"/>
+                    <input type="hidden" name="userID" value="${user.id}"/>
                     <input type="hidden" name="bookID" value="${book.id}">
                     <input type="submit" value="Accept Booking">
                 </form>
 
                 <form action="book" method="POST">
                     <input type="hidden" name="command" value="delete"/>
-                    <input type="hidden" name="adminID" value="${admin.id}"/>
+                    <input type="hidden" name="userID" value="${user.id}"/>
                     <input type="hidden" name="deleteID" value="${book.id}">
                     <input type="submit" value="Decline Booking">
                 </form>

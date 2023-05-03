@@ -8,7 +8,7 @@
 
 <form action="car" method="POST">
     <input type="hidden" name="command" value="addCar" />
-    <input type="hidden" name="adminID" value="${admin.id}">
+    <input type="hidden" name="userID" value="${user.id}">
     <input type="hidden" name="carID" >
 
     Model: <input type = "text" name="model">
@@ -24,9 +24,8 @@
 </form>
 
 <form action="user" method="GET">
-  <input type="hidden" name="command" value="admin" />
-  <input type="hidden" name="adminID" value="${admin.id}">
-  <input type="hidden" name="id" >
+  <input type="hidden" name="command" value="adminHomepage" />
+  <input type="hidden" name="userID" value="${user.id}">
   <input type="submit" value="Go back to the homepage.">
 </form>
 

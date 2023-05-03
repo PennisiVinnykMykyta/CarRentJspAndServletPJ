@@ -5,11 +5,11 @@
     <title>User List</title>
 </head>
 <body>
-<h3>Requested by the admin: ${admin.firstName} ${admin.lastName}</h3>
+<h3>Requested by the admin: ${user.firstName} ${user.lastName}</h3>
 <br>
 <form action="user" method="GET">
-    <input type="hidden" name="command" value="admin" />
-    <input type="hidden" name="adminID" value="${admin.id}" />
+    <input type="hidden" name="command" value="adminHomepage" />
+    <input type="hidden" name="userID" value="${user.id}" />
     <input type="submit" value="Go Back" />
 </form>
 <br><br>
@@ -35,35 +35,36 @@
         </th>
     </tr>
 
-    <c:forEach items="${userList}" var="user">
+    <c:forEach items="${userList}" var="userEntity">
         <tr>
             <td>
-                ${user.firstName}
+                ${userEntity.firstName}
             </td>
             <td>
-                ${user.lastName}
+                ${userEntity.lastName}
             </td>
             <td>
-                ${user.email}
+                ${userEntity.email}
             </td>
             <td>
-                ${user.birthDate}
+                ${userEntity.birthDate}
             </td>
             <td>
-                ${user.type}
+                ${userEntity.type}
             </td>
             <td>
                 <form action="user" method="POST">
-                    <input type="hidden" name="command" value="addUserView" />
-                    <input type="hidden" name="adminID" value="${admin.id}" />
-                    <input type="hidden" name="id" value="${user.id}">
+                    <input type="hidden" name="command" value="changeProfileUser" />
+                    <input type="hidden" name="object" value="adminRequest" />
+                    <input type="hidden" name="userID" value="${user.id}" />
+                    <input type="hidden" name="changeID" value="${userEntity.id}">
                     <input type="submit" value="Modify User">
                 </form>
 
                 <form action="user" method="POST">
                     <input type="hidden" name="command" value="delete" />
-                    <input type="hidden" name="adminID" value="${admin.id}" />
-                    <input type="hidden" name="deleteID" value="${user.id}">
+                    <input type="hidden" name="userID" value="${user.id}" />
+                    <input type="hidden" name="deleteID" value="${userEntity.id}">
                     <input type="submit" value="Delete User">
                 </form>
             </td>

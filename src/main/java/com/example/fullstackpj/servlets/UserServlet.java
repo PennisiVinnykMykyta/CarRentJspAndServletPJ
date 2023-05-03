@@ -26,10 +26,10 @@ public class UserServlet extends HttpServlet {
         String command = request.getParameter("command");
 
         switch (command){
-            case "customer" :
+            case "customerHomepage" :
                 showUserHomepage(request,response);
                 break;
-            case "admin" :
+            case "adminHomepage" :
                 showAdminHomepage(request,response);
                 break;
             case "profile" :
@@ -41,48 +41,63 @@ public class UserServlet extends HttpServlet {
             case "userList" :
                 viewUserList(request,response);
                 break;
+            case "bookList" :
+                viewAdminBookList(request,response);
         }
+    }
+
+    private void viewAdminBookList(HttpServletRequest request, HttpServletResponse response) throws  ServletException,IOException {
+        UserDAO userDAO = new UserDAO();
+        Integer userID = Integer.parseInt(request.getParameter("userID"));
+        User user = userDAO.findById(userID);
+        request.setAttribute("user",user);
+        List<Book> bookList = user.getBookings();
+        request.setAttribute("bookList",bookList);
+        request.getRequestDispatcher("bookListAdmin.jsp").forward(request,response);
     }
 
     protected  void showUserHomepage(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
-        if(request.getParameter("adminID") == null || request.getParameter("adminID").isEmpty()){
-            Integer id = Integer.parseInt(request.getParameter("id"));
-            UserDAO userDAO = new UserDAO();
-            User user =  userDAO.findById(id);
-            request.setAttribute("user",user);
-            request.setAttribute("bookingList",user.getBookings());
-            request.getRequestDispatcher("userHomepage.jsp").forward(request,response);
-        }else{
-            showAdminHomepage(request,response);
-        }
+        Integer userID = Integer.parseInt(request.getParameter("userID"));
+        UserDAO userDAO = new UserDAO();
+        User user =  userDAO.findById(userID);
+        List<Book> bookList = user.getBookings();
+        request.setAttribute("bookList",bookList);
+        request.setAttribute("user",user);
+        request.getRequestDispatcher("userHomepage.jsp").forward(request,response);
     }
 
     protected void showAdminHomepage(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        Integer id = Integer.parseInt(request.getParameter("adminID"));
+        Integer userID = Integer.parseInt(request.getParameter("userID"));
         UserDAO userDAO = new UserDAO();
-        User user =  userDAO.findById(id);
-        List<User> userList = userDAO.findAll();
+        User user =  userDAO.findById(userID);
         request.setAttribute("user",user);
-        request.setAttribute("userList",userList);
         request.getRequestDispatcher("adminHomepage.jsp").forward(request,response);
     }
 
+    @Override
     protected void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         UserDAO userDao = new UserDAO();
-        Integer id = Integer.parseInt(request.getParameter("adminID"));
-        User user = userDao.findById(id);
-        request.setAttribute("admin",user);
+        Integer userID = Integer.parseInt(request.getParameter("userID"));
+        User user = userDao.findById(userID);
+        request.setAttribute("user",user);
 
-        if(request.getParameter("object").equalsIgnoreCase("user")){
-            request.getRequestDispatcher("addUser.jsp").forward(request,response);
-        } else if (request.getParameter("object").equalsIgnoreCase("car")) {
-            request.getRequestDispatcher("addCar.jsp").forward(request,response);
-        } else if (request.getParameter("object").equalsIgnoreCase("book")) {
-            request.getRequestDispatcher("addBook.jsp").forward(request,response);
+        switch (request.getParameter("object")){
+            case "user" :
+                request.getRequestDispatcher("addUser.jsp").forward(request,response);
+                break;
+            case "car"  :
+                request.getRequestDispatcher("addCar.jsp").forward(request,response);
+                break;
+            case "book" :
+                request.getRequestDispatcher("addBook.jsp").forward(request,response);
+                break;
+            case "bookAdmin" :
+                request.getRequestDispatcher("addBookAdmin.jsp").forward(request,response);
+                break;
         }
-
     }
 
+    @Override
     protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         UserDAO userDao = new UserDAO();
         Integer id = Integer.parseInt(request.getParameter("deleteID")); //get id to delete
@@ -91,32 +106,38 @@ public class UserServlet extends HttpServlet {
     }
 
     private void showUserProfile(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        Integer id = Integer.parseInt(request.getParameter("id"));
-        String adminID = request.getParameter("adminID");
-        request.setAttribute("adminID",adminID);
+        Integer userID = Integer.parseInt(request.getParameter("userID"));
         UserDAO userDAO = new UserDAO();
-        User user = userDAO.findById(id);
+        User user = userDAO.findById(userID);
         request.setAttribute("user",user);
-        if(request.getParameter("command").equalsIgnoreCase("addUserView")){
+        if(request.getParameter("command").equalsIgnoreCase("ChangeProfileUser")){
+            if(request.getParameter("object").equals("adminRequest")){
+                Integer changeID = Integer.parseInt(request.getParameter("changeID"));
+                User changeUser = userDAO.findById(changeID);
+                request.setAttribute("changeUser",changeUser);
+                request.getRequestDispatcher("changeProfileUser.jsp").forward(request,response);
+            }
             request.getRequestDispatcher("changeProfile.jsp").forward(request,response);
+
         }else{
             request.getRequestDispatcher("showProfile.jsp").forward(request,response);
         }
     }
 
     private void showAdminProfile(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        Integer id = Integer.parseInt(request.getParameter("id"));
+        Integer id = Integer.parseInt(request.getParameter("userID"));
         UserDAO userDAO = new UserDAO();
         User user = userDAO.findById(id);
         request.setAttribute("user",user);
-        if(request.getParameter("command").equalsIgnoreCase("addAdminView")){
+        if(request.getParameter("command").equalsIgnoreCase("changeProfile")){
             request.getRequestDispatcher("changeProfileAdmin.jsp").forward(request,response);
         }else{
             request.getRequestDispatcher("showProfileAdmin.jsp").forward(request,response);
         }
     }
 
-    protected  void addUser(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected  void addOrChangeUser(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
         //get user info from addUser.jsp
         String firstName = request.getParameter("firstName");
         String lastName = request.getParameter("lastName");
@@ -130,50 +151,68 @@ public class UserServlet extends HttpServlet {
         } catch (ParseException e) {
             throw new RuntimeException(e);
         }
-        String type = request.getParameter("type");
-        UserType userType;
-        if (type.equalsIgnoreCase("admin")) {
-            userType = UserType.ADMIN;
-        }else{
-            userType = UserType.CUSTOMER;
-        }
 
-        //now we create the user and add it
-        UserDAO userDao = new UserDAO();
         User user;
-        String stringID = request.getParameter("id");
+        UserType userType;
+        UserDAO userDAO = new UserDAO();
+        Integer userID;
+        userID = Integer.parseInt(request.getParameter("userID"));
 
-        if(stringID == null){
+        if(request.getParameter("request").equalsIgnoreCase("change")){
+
+            //check if it is an admin operating on an element of a userList
+            if(request.getParameter("object").equals("adminChange")){
+                Integer changeID = Integer.parseInt(request.getParameter("changeID"));
+                User changeUser = userDAO.findById(changeID);
+                userType = changeUser.getType();
+                user = new User(changeID,email,password,firstName,lastName,userType,date);
+            }else{
+                //Change User
+                user = userDAO.findById(userID);
+                //find the type of the user to change
+                userType = user.getType();
+                user = new User(userID,email,password,firstName,lastName,userType,date);
+            }
+
+        }else{
+            //Add User
+            String type = request.getParameter("type");
+
+            //check what kind of user we are creating
+            if (type.equalsIgnoreCase("admin")) {
+                userType = UserType.ADMIN;
+            }else{
+                userType = UserType.CUSTOMER;
+            }
+
             user = new User(email,password, firstName, lastName, userType, date);
-        }else{
-            Integer id = Integer.parseInt(request.getParameter("id"));
-            user = new User(id,email,password, firstName, lastName, userType, date);
         }
-        userDao.saveOrUpdateUser(user);
 
-        String adminCheck = request.getParameter("adminID"); //see if the request was done by admin or by the user
+        //now we save or update our user
+        userDAO.saveOrUpdateUser(user);
 
-        if(adminCheck == null || adminCheck.isEmpty()){
-            User userLoaded = userDao.findByEmailAndPassword(email,password); //have to load updated user separately else he'll be null
-            request.setAttribute("user",userLoaded);
-            List<Book> bookList = userLoaded.getBookings();
-            request.setAttribute("bookingList", bookList);
-            request.getRequestDispatcher("userHomepage.jsp").forward(request,response);
-        }else{
-            Integer adminID = Integer.parseInt(request.getParameter("adminID"));
-            User admin = userDao.findById(adminID);
-            request.setAttribute("user",admin);
+        //now we reset the user to the correct one to redirect to the right page
+        user = userDAO.findById(userID);
+        userType = user.getType();
+        request.setAttribute("user",user);
+
+        if(userType == UserType.ADMIN){
+            //if it was admin go to adminHomepage
             request.getRequestDispatcher("adminHomepage.jsp").forward(request,response);
-        }
 
+        }else{
+            //if it was customer got to userHomepage
+            request.setAttribute("bookList",user.getBookings());
+            request.getRequestDispatcher("userHomepage.jsp").forward(request,response);
+        }
     }
 
 
     protected void viewUserList(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        Integer id = Integer.parseInt(request.getParameter("adminID"));
+        Integer userID = Integer.parseInt(request.getParameter("userID"));
         UserDAO userDAO = new UserDAO();
-        User user = userDAO.findById(id);
-        request.setAttribute("admin", user);
+        User user = userDAO.findById(userID);
+        request.setAttribute("user", user);
         List<User> userList = userDAO.findAll();
         request.setAttribute("userList",userList);
         request.getRequestDispatcher("userList.jsp").forward(request,response);
@@ -183,13 +222,13 @@ public class UserServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String command = request.getParameter("command");
         switch (command){
-            case "addUser": //operation to add a user
-                addUser(request,response);
+            case "addOrChangeUser": //operation to add a user
+                addOrChangeUser(request,response);
                 break;
-            case "addUserView" : // the request to either show the user page or to modify it
+            case "changeProfileUser" : // the request to either show the user page or to modify it
                 showUserProfile(request,response);
                 break;
-            case "addAdminView" : // the request to either show the admin page or to modify it
+            case "changeProfile" : // the request to either show the admin page or to modify it
                 showAdminProfile(request,response);
                 break;
             case "delete" :
@@ -197,9 +236,6 @@ public class UserServlet extends HttpServlet {
                 break;
             case "addPage" : // the request to get the page for the creation of a new user
                 doPut(request,response);
-                break;
-            default:
-                request.getRequestDispatcher("adminHomepage.jsp").forward(request,response);
                 break;
         }
     }

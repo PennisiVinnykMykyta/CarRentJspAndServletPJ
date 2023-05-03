@@ -5,11 +5,11 @@
     <title>Car List</title>
 </head>
 <body>
-<h3>Accessed by: ${admin.firstName} ${admin.lastName}</h3>
+<h3>Accessed by: ${user.firstName} ${user.lastName}</h3>
 
 <form action="user" method="GET">
-    <input type="hidden" name="command" value="admin" />
-    <input type="hidden" name="adminID" value="${admin.id}" />
+    <input type="hidden" name="command" value="adminHomepage" />
+    <input type="hidden" name="userID" value="${user.id}" />
     <input type="submit" value="Go Back" />
 </form>
 
@@ -56,15 +56,15 @@
                </td>
                <td>
                    <form action="car" method="POST">
-                       <input type="hidden" name="command" value="addCarView" />
-                       <input type="hidden" name="adminID" value="${admin.id}" />
+                       <input type="hidden" name="command" value="changeCar" />
+                       <input type="hidden" name="userID" value="${user.id}" />
                        <input type="hidden" name="carID" value="${car.id}">
                        <input type="submit" value="Modify Car">
                    </form>
 
                    <form action="car" method="POST">
                        <input type="hidden" name="command" value="delete" />
-                       <input type="hidden" name="adminID" value="${admin.id}" />
+                       <input type="hidden" name="userID" value="${user.id}" />
                        <input type="hidden" name="deleteID" value="${car.id}">
                        <input type="submit" value="Delete Car">
                    </form>

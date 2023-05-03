@@ -16,13 +16,13 @@
     <br>
     <input type="hidden" name="command" value="addCar"/>
     <input type="hidden" name="carID" value="${car.id}" />
-    <input type="hidden" name="adminID" value="${admin.id}" />
+    <input type="hidden" name="userID" value="${user.id}" />
     <input type="submit" value="Submit" />
 </form>
 <br>
 <form action="user" method="GET">
-    <input type="hidden" name="command" value="admin" />
-    <input type="hidden" name="adminID" value="${admin.id}" />
+    <input type="hidden" name="command" value="adminHomepage" />
+    <input type="hidden" name="userID" value="${user.id}" />
     <input type="submit" value="Go Back" />
 </form>
 

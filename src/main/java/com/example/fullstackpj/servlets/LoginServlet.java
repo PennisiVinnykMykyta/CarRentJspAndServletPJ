@@ -14,7 +14,7 @@ import java.io.IOException;
 import java.util.List;
 
 @WebServlet(name = "LoginServlet", value = "/login")
-public class Login extends HttpServlet {
+public class LoginServlet extends HttpServlet {
 
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
@@ -35,12 +35,10 @@ public class Login extends HttpServlet {
         if (user != null) {                         //check if the user with given credentials is present in the database
             request.setAttribute("user", user);  //if the user exists prepare to send his info to the appropriate page
             if (user.getType().equals(UserType.ADMIN)){
-                List<User> userList = userDao.findAll();
-                request.setAttribute("userList", userList);
                 request.getRequestDispatcher("adminHomepage.jsp").forward(request, response);
             } else {
                 List<Book> bookList = user.getBookings();
-                request.setAttribute("bookingList", bookList);
+                request.setAttribute("bookList", bookList);
                 request.getRequestDispatcher("userHomepage.jsp").forward(request, response);
             }
         } else {

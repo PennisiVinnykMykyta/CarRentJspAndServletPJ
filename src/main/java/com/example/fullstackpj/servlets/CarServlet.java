@@ -55,9 +55,9 @@ public class CarServlet extends HttpServlet {
         }
         carDao.saveOrUpdateCar(car);
 
-        Integer adminID = Integer.parseInt(request.getParameter("adminID"));
+        Integer userID = Integer.parseInt(request.getParameter("userID"));
         UserDAO userDAO = new UserDAO();
-        User admin = userDAO.findById(adminID);
+        User admin = userDAO.findById(userID);
         request.setAttribute("user",admin);
         request.getRequestDispatcher("adminHomepage.jsp").forward(request,response);
 
@@ -66,10 +66,10 @@ public class CarServlet extends HttpServlet {
 
 
     protected void viewCarList(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        Integer id = Integer.parseInt(request.getParameter("adminID"));
+        Integer userID = Integer.parseInt(request.getParameter("userID"));
         UserDAO userDAO = new UserDAO();
-        User user = userDAO.findById(id);
-        request.setAttribute("admin", user);
+        User user = userDAO.findById(userID);
+        request.setAttribute("user", user);
         CarDAO carDAO = new CarDAO();
         List<Car> carList = carDAO.findAll();
         request.setAttribute("carList",carList);
@@ -78,13 +78,13 @@ public class CarServlet extends HttpServlet {
 
     protected void showCarProfile(HttpServletRequest request, HttpServletResponse response) throws ServletException,IOException {
         Integer id = Integer.parseInt(request.getParameter("carID"));
-        Integer adminID = Integer.parseInt(request.getParameter("adminID"));
+        Integer userID = Integer.parseInt(request.getParameter("userID"));
         CarDAO carDAO = new CarDAO();
         Car car = carDAO.findById(id);
         request.setAttribute("car",car);
         UserDAO userDAO = new UserDAO();
-        User user = userDAO.findById(adminID);
-        request.setAttribute("admin",user);
+        User user = userDAO.findById(userID);
+        request.setAttribute("user",user);
         request.getRequestDispatcher("changeCar.jsp").forward(request,response);
     }
 
@@ -101,7 +101,7 @@ public class CarServlet extends HttpServlet {
             case "delete" :
                 doDelete(request,response);
                 break;
-            case "addCarView" :
+            case "changeCar" :
                 showCarProfile(request,response);
         }
     }

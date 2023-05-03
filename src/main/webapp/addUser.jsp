@@ -6,8 +6,9 @@
 <body>
 <h3>Compile the form below to add a user; Use yyyy-mm-dd for the birthday date:</h3>
 <form action="user" method="POST">
-    <input type="hidden" name="command" value="addUser" />
-    <input type="hidden" name="adminID" value="${admin.getId()}">
+    <input type="hidden" name="command" value="addOrChangeUser" />
+    <input type="hidden" name="request" value="add" />
+    <input type="hidden" name="userID" value="${user.id}">
 
     Email: <input type = "text" name="email">
 
@@ -40,10 +41,9 @@
 
 </form>
 <form action="user" method="GET">
-    <input type="hidden" name="command" value="admin" />
-    <input type="hidden" name="adminID" value="${admin.getId()}">
-    <input type="hidden" name="id" >
-    <input type="submit" value="Go back to the homepage.">
+    <input type="hidden" name="command" value="adminHomepage" />
+    <input type="hidden" name="userID" value="${user.id}"/>
+    <input type="submit" value="Go back to the homepage."/>
 </form>
 
 

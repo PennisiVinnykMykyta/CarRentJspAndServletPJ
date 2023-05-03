@@ -6,8 +6,7 @@
 </head>
 <body>
 <form action="user" method="GET">
-    <input type="hidden" name="command" value="admin"/>
-    <input type="hidden" name="adminID" value="${admin.id}"/>
+    <input type="hidden" name="command" value="adminHomepage"/>
     <input type="hidden" name="userID" value="${user.id}"/>
     <input type="submit" value="Go Back"/>
 </form>
@@ -41,12 +40,12 @@
             </td>
             <td>
                 <form action="book" method="POST">
-                    <input type="hidden" name="command" value="addBook"/>
+                    <input type="hidden" name="command" value="addOrChangeBookMethod"/>
                     <input type="hidden" name="startDate" value="${startDate}"/>
                     <input type="hidden" name="endDate" value="${endDate}"/>
                     <input type="hidden" name="carID" value="${car.id}"/>
-                    <input type="hidden" name="adminID" value="${admin.id}"/>
                     <input type="hidden" name="userID" value="${user.id}"/>
+                    <input type="hidden" name="bookID" value ="${book.id}"/>
                     <input type="submit" value="<-- Book This Vehicle"/>
                 </form>
             </td>

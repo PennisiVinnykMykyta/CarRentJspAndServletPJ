@@ -13,16 +13,14 @@
     <input type="date" name="endDate" />
     <br><br>
     <input type="hidden" name="command" value="checkBook" />
-    <input type="hidden" name="adminID" value="${admin.id}">
     <input type="hidden" name="userID"  value="${user.id}">
     <input type="hidden" name="object" value="add">
     <input type="submit" value="Continue">
 </form>
 
 <form action="user" method="GET">
-  <input type="hidden" name="command" value="customer" />
-  <input type="hidden" name="adminID" value="${admin.id}">
-  <input type="hidden" name="id"  value="${user.id}">
+  <input type="hidden" name="command" value="customerHomepage" />
+  <input type="hidden" name="userID"  value="${user.id}">
   <input type="submit" value="Go back to the homepage.">
 </form>
 </body>
