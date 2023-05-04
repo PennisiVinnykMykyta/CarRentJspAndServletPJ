@@ -25,7 +25,15 @@ public class Car implements Serializable {
     private String brand;
 
     @OneToMany(mappedBy = "car", fetch = FetchType.EAGER)
-    List<Book> bookings;
+    private List<Book> bookings;
+
+    public void setBookings(List<Book> bookings) {
+        this.bookings = bookings;
+    }
+
+    public List<Book> getBookings() {
+        return bookings;
+    }
 
     public Car(int id, String numberPlate, String color, String model, String brand) {
         this.id = id;

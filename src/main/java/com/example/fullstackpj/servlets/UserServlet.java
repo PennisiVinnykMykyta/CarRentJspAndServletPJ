@@ -43,6 +43,10 @@ public class UserServlet extends HttpServlet {
                 break;
             case "bookList" :
                 viewAdminBookList(request,response);
+                break;
+            case "addPage" : // the request to get the page for the creation of a new user
+                doPut(request,response);
+                break;
         }
     }
 
@@ -233,9 +237,6 @@ public class UserServlet extends HttpServlet {
                 break;
             case "delete" :
                 doDelete(request,response);
-                break;
-            case "addPage" : // the request to get the page for the creation of a new user
-                doPut(request,response);
                 break;
         }
     }

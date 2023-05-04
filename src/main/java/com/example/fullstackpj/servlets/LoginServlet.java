@@ -23,8 +23,6 @@ public class LoginServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        response.setContentType("text/html");
-
         //check the type of user that is trying to log in
         String guestMail = request.getParameter("email");
         String guestPassword = request.getParameter("password");

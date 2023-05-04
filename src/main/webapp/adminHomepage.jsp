@@ -27,7 +27,7 @@
 <table >
     <tr>
         <td>
-            <form action="user" method="POST">
+            <form action="user" method="GET">
                 <input type="hidden" name="command" value="addPage" />
                 <input type="hidden" name="userID" value="${user.id}" />
                 <input type="hidden" name="object" value="user" />
@@ -35,7 +35,7 @@
             </form>
         </td>
         <td>
-            <form action="user" method="POST">
+            <form action="user" method="GET">
                 <input type="hidden" name="command" value="addPage" />
                 <input type="hidden" name="userID" value="${user.id}" />
                 <input type="hidden" name="object" value="car" />
@@ -43,7 +43,7 @@
             </form>
         </td>
         <td>
-            <form action="user" method="POST">
+            <form action="user" method="GET">
                 <input type="hidden" name="command" value="addPage" />
                 <input type="hidden" name="userID" value="${user.id}" />
                 <input type="hidden" name="object" value="bookAdmin" />

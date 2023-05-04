@@ -96,10 +96,10 @@ public class BookDAO {
             Criterion endEqualEnd1 = Restrictions.eq("endDate",end);
             LogicalExpression greaterOrEqualEnd2 = Restrictions.or(endGreaterEnd,endEqualEnd1);
 
-            LogicalExpression EndAndStart = Restrictions.and(lessOrEqualStart,greaterOrEqualEnd2);
+            LogicalExpression endAndStart = Restrictions.and(lessOrEqualStart,greaterOrEqualEnd2);
 
 ////////////Combination of this case and the previous combo
-            LogicalExpression noValidation = Restrictions.or(startAndEnd,EndAndStart);
+            LogicalExpression noValidation = Restrictions.or(startAndEnd,endAndStart);
 
 ////////////Make sure that the booking has been confirmed by the admin
             Criterion validation = Restrictions.eq("valid",true);

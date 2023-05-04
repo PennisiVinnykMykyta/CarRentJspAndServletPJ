@@ -63,8 +63,6 @@ public class CarServlet extends HttpServlet {
 
     }
 
-
-
     protected void viewCarList(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         Integer userID = Integer.parseInt(request.getParameter("userID"));
         UserDAO userDAO = new UserDAO();
@@ -94,9 +92,6 @@ public class CarServlet extends HttpServlet {
         switch (command){
             case "addCar":
                 addCar(request,response);
-                break;
-            case "addCarPage" :
-                doPut(request,response);
                 break;
             case "delete" :
                 doDelete(request,response);
